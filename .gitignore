@@ -1,0 +1,8 @@
+# Local content-generation inputs and tools
+students.json
+build_faculty.py
+sync_students.py
+
+# Local image backups
+*.bak
+*.prev_bak*

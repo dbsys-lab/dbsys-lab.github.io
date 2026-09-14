@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>数据库系统实验室 · DBLab · 中国人民大学 DEKE</title>
+<meta name="description" content="中国人民大学 DEKE 重点实验室 数据库系统实验室（DBLab）。研究方向：数据库系统、AI4DB、AI×SE、大模型与数据。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Source+Han+Sans:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --ink:#1a1a1a;
+  --ink-2:#3f3f46;
+  --muted:#6b7280;
+  --line:#e5e7eb;
+  --bg:#ffffff;
+  --soft:#fafaf9;
+  --ruc:#a81c1c;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:"Source Serif 4","Noto Serif SC",Georgia,"Times New Roman","Microsoft YaHei",serif;
+  font-size:15.5px;line-height:1.7;-webkit-font-smoothing:antialiased;
+}
+a{color:var(--ruc);text-decoration:none;border-bottom:1px solid transparent}
+a:hover{border-bottom-color:var(--ruc)}
+h1,h2,h3,h4{font-family:"Noto Serif SC","Source Serif 4",serif;font-weight:700;color:var(--ink);line-height:1.3}
+h1{font-size:26px;margin:0 0 4px 0}
+h2{font-size:19px;margin:0 0 14px 0;padding-bottom:8px;border-bottom:2px solid var(--ink);display:inline-block}
+h3{font-size:16px;margin:18px 0 6px 0}
+p{margin:0 0 12px 0}
+ul{margin:0 0 12px 0;padding-left:20px}
+li{margin:0 0 4px 0}
+hr{border:0;border-top:1px solid var(--line);margin:28px 0}
+.wrap{max-width:960px;margin:0 auto;padding:0 28px}
+.layout{display:grid;grid-template-columns:200px 1fr;gap:48px;padding:40px 0 80px 0}
+@media(max-width:820px){.layout{grid-template-columns:1fr;gap:20px;padding:24px 0 60px 0}}
+header.topbar{border-bottom:1px solid var(--line);background:var(--soft)}
+.topbar-inner{display:flex;justify-content:space-between;align-items:center;padding:14px 28px;max-width:960px;margin:0 auto;font-size:13px}
+.topbar-inner .cn{font-family:"Noto Serif SC",serif;font-weight:600}
+.topbar-inner .en{color:var(--muted);letter-spacing:.05em;font-family:"Source Serif 4",serif;font-style:italic}
+nav.side{position:sticky;top:20px;align-self:start;font-size:14px}
+nav.side ul{list-style:none;padding:0;margin:0}
+nav.side li{margin:0 0 6px 0}
+nav.side a{color:var(--ink);border:none;display:block;padding:3px 0;border-left:2px solid transparent;padding-left:10px;margin-left:-10px}
+nav.side a:hover{color:var(--ruc);border-left-color:var(--ruc)}
+nav.side .group-title{font-family:"Noto Serif SC",serif;font-weight:700;color:var(--ink);font-size:15px;margin:16px 0 6px 0;padding-left:0}
+@media(max-width:820px){nav.side{position:static;padding:10px 0;border-bottom:1px solid var(--line)}}
+section{margin:0 0 40px 0}
+section:first-child{margin-top:0}
+.lead{font-size:15px;color:var(--ink-2)}
+.meta{color:var(--muted);font-size:13.5px}
+.news-list{list-style:none;padding:0;margin:0;border-top:1px solid var(--line)}
+.news-list li{display:grid;grid-template-columns:110px 1fr;gap:14px;padding:10px 0;border-bottom:1px solid var(--line);margin:0}
+.news-list .date{color:var(--muted);font-family:"Source Serif 4",serif;font-variant-numeric:tabular-nums;font-size:13.5px}
+.news-list .tag{display:inline-block;font-size:11px;letter-spacing:.06em;padding:1px 6px;border:1px solid var(--line);border-radius:2px;color:var(--muted);margin-right:6px;text-transform:uppercase;font-family:"Source Serif 4",serif}
+.members{display:grid;grid-template-columns:repeat(3,1fr);gap:20px 24px;margin-top:8px}
+@media(max-width:720px){.members{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.members{grid-template-columns:1fr}}
+.m{display:flex;gap:12px;align-items:flex-start}
+.m .avatar{width:76px;height:92px;background:var(--soft);border:1px solid var(--line);display:flex;align-items:flex-end;justify-content:center;flex-shrink:0;font-family:"Noto Serif SC",serif;font-weight:700;font-size:34px;color:var(--ink-2);padding-bottom:8px;background-size:contain;background-repeat:no-repeat;background-position:center center;overflow:hidden}
+.m .avatar.has-photo{color:transparent;padding:0;background-color:#f4efe9}
+.m .avatar.cover{background-size:cover;background-position:center top}
+.m .info{flex:1;min-width:0}
+.m .name{font-family:"Noto Serif SC",serif;font-weight:700;font-size:16px}
+.m .en{color:var(--muted);font-style:italic;font-size:12.5px;margin-top:1px}
+.m .role{font-size:13px;color:var(--ink-2);margin-top:2px}
+.m .topic{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.5}
+.m .links{margin-top:5px;font-size:12.5px}
+.m .links a{color:var(--ink-2);border-bottom:1px dotted var(--muted);margin-right:8px}
+.m .links a:hover{color:var(--ruc);border-bottom-color:var(--ruc)}
+.pub-list{list-style:none;padding:0;margin:0}
+.pub-list > li.year{font-family:"Noto Serif SC",serif;font-weight:700;font-size:15px;margin:18px 0 6px 0;color:var(--ink);border-bottom:1px solid var(--line);padding-bottom:4px}
+.pub-list > li.item{padding:7px 0 7px 24px;position:relative;border-bottom:1px dotted var(--line);font-size:14px;line-height:1.6}
+.pub-list > li.item::before{content:"▪";position:absolute;left:4px;color:var(--muted);font-size:12px;top:9px}
+.pub-list .venue{font-style:italic;color:var(--ink-2)}
+.pub-list .pdf{font-family:"Source Serif 4",serif;font-size:11.5px;letter-spacing:.04em;color:var(--ruc);border:1px solid var(--ruc);padding:0 5px;border-radius:2px;margin-left:4px;text-transform:uppercase}
+.pub-list .pdf:hover{background:var(--ruc);color:#fff;border-bottom-color:var(--ruc)}
+.research-item{padding:10px 0;border-bottom:1px solid var(--line)}
+.research-item:last-child{border-bottom:none}
+.research-item h3{margin-top:0;display:flex;align-items:baseline;gap:8px}
+.research-item h3 .code{font-family:"Source Serif 4",serif;font-style:italic;color:var(--ruc);font-weight:400;font-size:14px}
+.research-item p{font-size:14px;color:var(--ink-2);margin:0}
+footer{border-top:1px solid var(--line);background:var(--soft);margin-top:20px}
+footer .inner{max-width:960px;margin:0 auto;padding:20px 28px;font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-family:"Source Serif 4",serif}
+.anchor{scroll-margin-top:20px}
+.small{font-size:13px;color:var(--muted)}
+.kv{display:grid;grid-template-columns:90px 1fr;gap:6px 14px;margin:10px 0;font-size:14px}
+.kv dt{color:var(--muted);font-family:"Source Serif 4",serif;font-style:italic}
+.kv dd{margin:0}
+blockquote{margin:0;padding:6px 0 6px 16px;border-left:3px solid var(--ruc);color:var(--ink-2);font-size:14px;font-style:italic}
+.students-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:10px}
+.s{border:1px solid var(--line);padding:12px 14px;background:var(--bg);border-radius:2px;font-size:13px;line-height:1.5}
+.s-head{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.s-name{font-family:"Noto Serif SC",serif;font-weight:700;font-size:15px;color:var(--ink)}
+.s-en{color:var(--muted);font-style:italic;font-size:12.5px}
+.s-meta{color:var(--ink-2);margin-top:3px;font-size:12.5px}
+.s-meta a{color:var(--ink-2);border-bottom:1px dotted var(--muted)}
+.s-meta a:hover{color:var(--ruc);border-bottom-color:var(--ruc)}
+.s-topic{margin-top:4px;color:var(--ink);font-size:13px}
+.s-intro{margin-top:4px;color:var(--muted);font-style:italic;font-size:12.5px}
+.s-tags{margin-top:6px}
+.stag{display:inline-block;font-size:10.5px;padding:1px 6px;border:1px solid var(--line);color:var(--ink-2);margin-right:3px;margin-bottom:3px;border-radius:2px;font-family:"Source Serif 4",serif;font-style:italic}
+.s-links{margin-top:6px;font-size:12px}
+.s-links a{margin-right:6px;color:var(--ink-2);border-bottom:1px dotted var(--muted)}
+.s-links a:hover{color:var(--ruc);border-bottom-color:var(--ruc)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div><span class="cn">中国人民大学</span> · 信息学院 · <span class="en">Renmin University of China · School of Information</span></div>
+    <div class="en">DEKE · Key Lab of Data Engineering and Knowledge Engineering, MOE</div>
+  </div>
+</header>
+
+<div class="wrap layout">
+
+<nav class="side">
+  <div class="group-title">Database Systems Lab</div>
+  <ul>
+    <li><a href="#home">首页 / Home</a></li>
+    <li><a href="#news">最新消息 / News</a></li>
+    <li><a href="#members">团队成员 / Members</a></li>
+    <li><a href="#research">研究方向 / Research</a></li>
+    <li><a href="#publications">学术论文 / Publications</a></li>
+    <li><a href="#teaching">教学 / Teaching</a></li>
+    <li><a href="#join">招生信息 / Join Us</a></li>
+    <li><a href="#contact">联系我们 / Contact</a></li>
+  </ul>
+  <div class="group-title">Resources</div>
+  <ul>
+    <li><a href="https://info.ruc.edu.cn/" target="_blank" rel="noopener">信息学院 ↗</a></li>
+    <li><a href="https://feishu.cn/docx/BmcJdJiAhoz63WxGAnDcich2njg" target="_blank" rel="noopener">团队发展史 ↗</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<section id="home" class="anchor">
+<h1>数据库系统实验室</h1>
+<div class="meta">Database Systems Lab (DBLab)</div>
+<div class="meta" style="margin-top:4px">数据工程与知识工程教育部重点实验室 · 中国人民大学信息学院</div>
+
+<p class="lead" style="margin-top:18px">
+本研究组隶属中国人民大学 <a href="#">DEKE 重点实验室</a>，由杜小勇教授领衔。自 1978 年萨师煊先生在人大开设中国第一门数据库课程以来，学科已传承四十八载，四代学者接力。研究组围绕数据库系统、智能数据管理、复杂系统可信性、大模型与数据等方向，持续在教学、系统与产业之间架桥。
+</p>
+
+<dl class="kv">
+  <dt>Founded</dt><dd>1978（数据库学科起源） / 2008（DEKE 获批）</dd>
+  <dt>PI</dt><dd>杜小勇 教授（Prof. Xiaoyong Du）</dd>
+  <dt>Members</dt><dd>教授 2 · 副教授 1 · 讲师/青年教师 2 · 博士/硕士研究生若干</dd>
+  <dt>Honors</dt><dd>2018 国家科学技术进步奖二等奖 · 教育部「101 计划」数据库系统课程牵头单位 · 国家级线上/线下混合式一流本科课程 · 中国人民大学教学成果/科研成果特等奖（2025）</dd>
+  <dt>Location</dt><dd>北京市海淀区中关村大街 59 号 · 中国人民大学信息楼</dd>
+</dl>
+
+<p class="small">
+关键词：<em>Database Systems · Self-driving DB (AI4DB) · Query Optimization · Distributed Transactions · AI × SE · LLM for Data · Large Language Models · Knowledge Engineering</em>
+</p>
+</section>
+
+
+<section id="news" class="anchor">
+<h2>最新消息 / News</h2>
+<ul class="news-list">
+  <li>
+    <span class="date">2026-04</span>
+    <div><span class="tag">Site</span>研究组主页（v0.3）内容更新：团队成员档案、代表性论文与教学成果归档上线。</div>
+  </li>
+  <li>
+    <span class="date">2026-01</span>
+    <div><span class="tag">Project</span>张心怡老师主持的 CCF-阿里云瑶池基金课题「基于代码大模型的数据库系统参数调优」立项。</div>
+  </li>
+  <li>
+    <span class="date">2025-10</span>
+    <div><span class="tag">Talk</span>卢卫教授在「101 计划」西北工作组成立仪式做《101 计划数据库系统教学改革方法研究与实践》主题报告。</div>
+  </li>
+  <li>
+    <span class="date">2025-09</span>
+    <div><span class="tag">Award</span>团队参与完成的研究成果分别获<strong>中国人民大学优秀科研成果奖特等奖</strong>、<strong>中国人民大学教学成果奖特等奖</strong>。</div>
+  </li>
+  <li>
+    <span class="date">2025-08</span>
+    <div><span class="tag">Contest</span>「全国大学生计算机系统能力大赛·数据库赛道」第三届在南昌大学举办，362 支队伍、919 名选手参赛（卢卫教授任技术负责人）。</div>
+  </li>
+  <li>
+    <span class="date">2025-04</span>
+    <div><span class="tag">Award</span>团队合作成果获<strong>日内瓦国际发明展评审团特别嘉许金奖</strong>。</div>
+  </li>
+  <li>
+    <span class="date">2024-11</span>
+    <div><span class="tag">Book</span>由杜小勇、陈红、卢卫主编的《数据库系统概论（第 6 版）习题解析与实验指导》出版（高等教育出版社）。</div>
+  </li>
+  <li>
+    <span class="date">2024-04</span>
+    <div><span class="tag">Book</span>教育部「101 计划」计算机核心教材《数据库管理系统原理与实现》出版（清华大学出版社）。</div>
+  </li>
+  <li>
+    <span class="date">2023-06</span>
+    <div><span class="tag">Award</span>合作成果「金融级分布式数据库 TDSQL」获<strong>深圳市科技进步一等奖</strong>。</div>
+  </li>
+  <li>
+    <span class="date">2022-09</span>
+    <div><span class="tag">Award</span>团队参与完成的教学成果获<strong>北京市高等教育教学成果一等奖</strong>。</div>
+  </li>
+  <li>
+    <span class="date">2022-08</span>
+    <div><span class="tag">Award</span>卢卫教授获首届<strong>华为云难题「火花奖」</strong>（独立获奖人）。</div>
+  </li>
+  <li>
+    <span class="date">2020-11</span>
+    <div><span class="tag">Teaching</span>《数据库系统概论》获评<strong>国家级线上线下混合式一流本科课程</strong>与<strong>国家级线上一流本科课程</strong>。</div>
+  </li>
+  <li>
+    <span class="date">2018-01</span>
+    <div><span class="tag">Award</span>团队核心成员参与完成的「数据库管理系统核心技术创新与金仓产业化」获<strong>国家科学技术进步奖二等奖</strong>。</div>
+  </li>
+</ul>
+<p class="small" style="margin-top:10px">完整 news 归档见团队发展史文档 ↗。</p>
+</section>
+
+<section id="members" class="anchor">
+<h2>团队成员 / Members</h2>
+
+<h3 style="margin-top:18px">Faculty</h3>
+<div class="members">
+  <div class="m">
+    <div class="avatar has-photo" style="background-image:url('assets/photos/duyong.jpg')">杜</div>
+    <div class="info">
+      <div class="name"><a href="members/duyong.html" style="color:var(--ink);border:none">杜小勇 →</a></div>
+      <div class="en">Xiaoyong Du</div>
+      <div class="role">Professor · 教授 / 博导</div>
+      <div class="topic">数据库系统 · 知识工程 · 智能信息检索；教育部重点实验室牵头人；2018 国家科技进步奖二等奖主要完成人；《数据库系统概论》后续版本主编之一。</div>
+      <div class="links">
+        <a href="members/duyong.html">Profile</a>
+        <a href="mailto:duyong@ruc.edu.cn">Email</a>
+        <a href="https://info.ruc.edu.cn/" target="_blank" rel="noopener">Homepage ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="m">
+    <div class="avatar has-photo" style="background-image:url('assets/photos/luwei.jpg')">卢</div>
+    <div class="info">
+      <div class="name"><a href="members/luwei.html" style="color:var(--ink);border:none">卢卫 →</a></div>
+      <div class="en">Wei Lu</div>
+      <div class="role">吴玉章特聘教授 / 博导；信息学院副院长；DEKE 副主任</div>
+      <div class="topic">数据库系统内核 · 分布式事务 · 查询优化 · 时序图数据库；在 SIGMOD/VLDB/TKDE 发表 50+ 论文；CCF 数据库专委会执行委员；全国大学生计算机系统能力大赛数据库赛道技术负责人。</div>
+      <div class="links">
+        <a href="members/luwei.html">Profile</a>
+        <a href="mailto:lu-wei@ruc.edu.cn">Email</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="m">
+    <div class="avatar has-photo" style="background-image:url('assets/photos/liushuang.jpg')">刘</div>
+    <div class="info">
+      <div class="name"><a href="members/liushuang.html" style="color:var(--ink);border:none">刘爽 →</a></div>
+      <div class="en">Shuang Liu</div>
+      <div class="role">Associate Professor · 副教授</div>
+      <div class="topic">复杂系统测试 · AI for SE · SE for AI；数据库功能与性能验证。</div>
+      <div class="links">
+        <a href="members/liushuang.html">Profile</a>
+        <a href="mailto:liushuang@ruc.edu.cn">Email</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="m">
+    <div class="avatar has-photo" style="background-image:url('assets/photos/xinyizhang.jpg')">张</div>
+    <div class="info">
+      <div class="name"><a href="members/xinyizhang.html" style="color:var(--ink);border:none">张心怡 →</a></div>
+      <div class="en">Xinyi Zhang</div>
+      <div class="role">Lecturer · 讲师</div>
+      <div class="topic">自驱动数据库（AI4DB）· 云原生数据库；主持 CCF-阿里云瑶池基金「基于代码大模型的数据库系统参数调优」。</div>
+      <div class="links">
+        <a href="members/xinyizhang.html">Profile</a>
+        <a href="mailto:xinyi.zhang@ruc.edu.cn">Email</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="m">
+    <div class="avatar has-photo" style="background-image:url('assets/photos/jinhaodong.jpg')">董</div>
+    <div class="info">
+      <div class="name"><a href="members/jinhaodong.html" style="color:var(--ink);border:none">董谨豪 →</a></div>
+      <div class="en">Jinhao Dong</div>
+      <div class="role">Assistant Professor · 青年教师</div>
+      <div class="topic">大语言模型（LLM）· 推理与对齐（RLHF/DPO）· Agent 系统；LLM × DB 交叉方向。</div>
+      <div class="links">
+        <a href="members/jinhaodong.html">Profile</a>
+        <a href="mailto:jinhao.dong@ruc.edu.cn">Email</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3 style="margin-top:26px">Students</h3>
+<p class="small">课题组在读博士生、硕士生、本科生。数据来自飞书表单，<a href="https://fq5grxjm7qk.feishu.cn/base/C2t9bJozVaVSFRsyLascpD8Qn2d" target="_blank" rel="noopener">点此填写 / 更新你的信息 ↗</a>。</p>
+<!-- STUDENTS_BEGIN -->
+<div class="students-grid">
+<div class="s">
+  <div class="s-head">
+    <div class="s-name">李四</div>
+    <div class="s-en">Si Li</div>
+  </div>
+  <div class="s-meta">博士生 · 2023 · 导师：<a href="members/luwei.html">卢卫</a></div>
+  <div class="s-topic">分布式数据库事务协议与高性能内核</div>
+  <div class="s-intro">"让事务在几千台机器上也不打架。"</div>
+  <div class="s-tags"><span class="stag">数据库内核</span><span class="stag">分布式事务</span></div>
+  <div class="s-links"><a href="mailto:si.li@ruc.edu.cn">Email</a> · <a href="https://github.com/sili" target="_blank" rel="noopener">GH ↗</a></div>
+</div>
+<div class="s">
+  <div class="s-head">
+    <div class="s-name">王小明</div>
+    <div class="s-en">Xiaoming Wang</div>
+  </div>
+  <div class="s-meta">硕士生 · 2025 · 导师：<a href="members/xinyizhang.html">张心怡</a></div>
+  <div class="s-topic">LLM 辅助的数据库参数调优</div>
+  
+  <div class="s-tags"><span class="stag">AI4DB</span><span class="stag">LLM</span></div>
+  <div class="s-links"><a href="mailto:wangxm@ruc.edu.cn">Email</a></div>
+</div>
+<div class="s">
+  <div class="s-head">
+    <div class="s-name">赵六</div>
+    <div class="s-en"></div>
+  </div>
+  <div class="s-meta">本科生 · 2023 · 导师：<a href="members/jinhaodong.html">董谨豪</a></div>
+  <div class="s-topic">LLM Agent 框架与工具调用</div>
+  
+  <div class="s-tags"><span class="stag">LLM</span><span class="stag">Agent</span></div>
+  <div class="s-links"><a href="mailto:zhaoliu@ruc.edu.cn">Email</a></div>
+</div>
+</div>
+<!-- STUDENTS_END -->
+
+<h3 style="margin-top:22px">Alumni</h3>
+<p class="small">历届毕业生分布于国内外高校、研究机构与一线科技企业——详见 <a href="https://feishu.cn/docx/BmcJdJiAhoz63WxGAnDcich2njg" target="_blank" rel="noopener">团队发展史</a>。</p>
+</section>
+
+<section id="research" class="anchor">
+<h2>研究方向 / Research</h2>
+<p class="lead">围绕「数据管理核心问题」，在以下四条主线上持续深耕，各方向之间交叉激发。</p>
+
+<div class="research-item">
+  <h3>R01 · 数据库系统核心 <span class="code">Core DBMS</span></h3>
+  <p>查询优化、分布式事务、存储引擎、国产 DBMS 内核研究；自研教学型数据库 RUCBase、研究型原型 RMDB；与金仓 (Kingbase) 的长期合作推动国产数据库从实验室走向产业。</p>
+</div>
+
+<div class="research-item">
+  <h3>R02 · 智能数据管理 <span class="code">AI4DB / Self-driving DB</span></h3>
+  <p>基于机器学习与大模型的数据库参数调优、索引推荐、查询优化与云原生资源调度；研究「会自己调参数的数据库」如何在生产环境真正落地。</p>
+</div>
+
+<div class="research-item">
+  <h3>R03 · 复杂系统可信性 <span class="code">AI × SE</span></h3>
+  <p>数据库功能与性能测试、深度学习系统验证、基于 LLM 的 bug 发现与修复；AI for SE 与 SE for AI 的双向互动。</p>
+</div>
+
+<div class="research-item">
+  <h3>R04 · 大模型与数据 <span class="code">LLM × Data</span></h3>
+  <p>大语言模型的推理、对齐与 Agent 系统；LLM for Data（数据清洗、SQL 生成、Text-to-Analytics）；代码大模型辅助 DBMS 内核工程。</p>
+</div>
+
+<p class="small" style="margin-top:12px">长期合作单位：人大金仓、阿里云瑶池、华为「智能基座」虚拟教研室等。</p>
+</section>
+
+<section id="publications" class="anchor">
+<h2>学术论文 / Publications</h2>
+<p class="small">按年份倒序排列，选录团队近年在 SIGMOD / VLDB / ICDE / TKDE / TSE / ICSE / AAAI / NeurIPS 等会议期刊的代表性论文；完整列表请参见各 PI 个人主页。</p>
+
+<ul class="pub-list">
+  <li class="year">2026</li>
+  <li class="item">
+    Duling Xu, Tong Li, Zegang Sun, Zheng Chen, Weixing Zhou, Yanfeng Zhang, <strong>Wei Lu</strong>, Xiaoyong Du.
+    <strong>Performant Synchronization in Geo-Distributed Databases.</strong>
+    In <span class="venue">Proc. of SIGMOD 2026</span>.
+  </li>
+  <li class="item">
+    Zhenghao Ding, Xinyi Zhang, Chao Zhang, Yishen Sun, Kai Xu, <strong>Wei Lu*</strong>, Xiaoyong Du.
+    <strong>Breaking the Isolation-Freshness Trade-off: Joint Adaptive Storage.</strong>
+    In <span class="venue">PVLDB 2026</span>.
+  </li>
+  <li class="item">
+    Xinyi Zhang, Tiantian Chen, Zhentao Han et al.
+    <strong>Why Database Manuals Are Not Enough: Efficient and Reliable Configuration Tuning for DBMSs via Code-Driven LLM Agents.</strong>
+    In <span class="venue">PVLDB 2026</span>.
+  </li>
+  <li class="item">
+    Yankai Rong, <strong>Shuang Liu</strong>, <strong>Jinhao Dong</strong>, Qiang Yin, <strong>Wei Lu</strong>, Jianhua Wang, Xiaoyong Du.
+    <strong>DBcover: A White-box SQL Test Generation Framework for Coverage Improvement.</strong>
+    In <span class="venue">ICSE 2026</span>.
+  </li>
+  <li class="item">
+    Wenhao Li, Zhanhao Zhao, <strong>Jinhao Dong</strong>, Jiamin Hou, <strong>Wei Lu</strong>, Yunhai Wang, Xiaoyong Du.
+    <strong>TVA: A Version-aware Temporal Graph Storage System for Real-time Analytics.</strong>
+    In <span class="venue">PVLDB (Revision) 2026</span>.
+  </li>
+
+  <li class="year">2025</li>
+  <li class="item">
+    Qiyu Zhuang, <strong>Wei Lu*</strong>, <strong>Shuang Liu</strong>, Yuxing Chen, Xinyue Shi, Zhanhao Zhao, Yipeng Sun, Anqun Pan, Xiaoyong Du.
+    <strong>TxnSails: Achieving Serializable Transaction Scheduling with Self-Adaptive Isolation Level Selection.</strong>
+    In <span class="venue">PVLDB 2025</span>.
+  </li>
+  <li class="item">
+    Chunyue Huang, <strong>Shuang Liu</strong>, Xinyi Zhang, Wenhao Li, <strong>Wei Lu*</strong>, Xiaoyong Du.
+    <strong>Chimera: Mitigating Ownership Transfers in Multi-Primary Shared-Storage Cloud-Native Databases.</strong>
+    In <span class="venue">PVLDB 2025</span>.
+  </li>
+  <li class="item">
+    <strong>Shuang Liu</strong>, Ruifeng Wang, Yuanfeng Xie, Junjie Chen, <strong>Wei Lu</strong>, Xiao Zhang, Quanqing Xu, Chuanhui Yang, Xiaoyong Du.
+    <strong>A Comprehensive Study of Bugs in Relational DBMS.</strong>
+    In <span class="venue">IEEE TSE 2025, 51(12): 3654–3668</span>.
+  </li>
+  <li class="item">
+    Wenhang Shi, Yiren Chen, Shuqing Bian, Xinyi Zhang, Kai Tang, Pengfei Hu, Zhe Zhao, <strong>Wei Lu</strong>, Xiaoyong Du.
+    <strong>No Loss, No Gain: Gated Refinement and Adaptive Compression for Prompt Optimization.</strong>
+    In <span class="venue">NeurIPS 2025</span>.
+  </li>
+  <li class="item">
+    Donghui Wang, Yuxing Chen, Chengyao Jiang et al., <strong>Wei Lu</strong>, Yunpeng Chai, Feng Zhang, Xiaoyong Du.
+    <strong>TXSQL: Lock Optimizations Towards High Contented Workloads.</strong>
+    In <span class="venue">SIGMOD 2025</span>.
+  </li>
+  <li class="item">
+    Wenhang Shi, Yiren Chen, Shuqing Bian, Xinyi Zhang, Zhe Zhao, Pengfei Hu, <strong>Wei Lu</strong>, Xiaoyong Du.
+    <strong>Joint Knowledge Editing for Information Enrichment and Probability Promotion.</strong>
+    In <span class="venue">AAAI 2025</span>.
+  </li>
+
+  <li class="year">2024</li>
+  <li class="item">
+    Jiamin Hou, Zhanhao Zhao, Zhouyu Wang, <strong>Wei Lu*</strong>, Guodong Jin, Dong Wen, Xiaoyong Du.
+    <strong>AeonG: An Efficient Built-in Temporal Support in Graph Databases.</strong>
+    In <span class="venue">PVLDB 2024, 17(6): 1515–1527</span>.
+  </li>
+  <li class="item">
+    Yuxing Chen, Anqun Pan, Hailin Lei, Anda Ye, Shuo Han, Yan Tang, <strong>Wei Lu</strong>, Yunpeng Chai, Feng Zhang, Xiaoyong Du.
+    <strong>TDSQL: Tencent Distributed Database System.</strong>
+    In <span class="venue">PVLDB 2024, 17(12): 3869–3882</span>.
+  </li>
+  <li class="item">
+    Zhanhao Zhao, Hexiang Pan, Gang Chen, Xiaoyong Du, <strong>Wei Lu</strong>, Beng Chin Ooi.
+    <strong>Verifiable Transactions for Cloud-Native Databases with Storage Disaggregation.</strong>
+    In <span class="venue">SIGMOD 2024, 1(4): 270:1–270:27</span>.
+  </li>
+  <li class="item">
+    <strong>Shuang Liu</strong>, Junhao Lan, Xiaoning Du, Jiyuan Li, <strong>Wei Lu*</strong>, Jiajun Jiang, Xiaoyong Du.
+    <strong>Testing Graph Database Systems with Graph-State Persistence Oracle.</strong>
+    In <span class="venue">ISSTA 2024</span>.
+  </li>
+</ul>
+
+<p class="small" style="margin-top:10px">完整论文列表（含 2019 – 2023 年 TKDE / 软件学报 / VLDB J / USENIX ATC 等）请见 <a href="members/luwei.html">卢卫老师个人主页</a>。</p>
+</section>
+
+<section id="teaching" class="anchor">
+<h2>教学 / Teaching</h2>
+
+<p class="lead">
+从 1978 年萨师煊先生在人大开设中国第一门数据库课程算起，至今已 48 载、四代薪传。我们始终把人才培养放在与科研同等重要的位置；近年，面向国家数据库技术自主可控的迫切需求，团队牵头推动从「<em>用数据库</em>」到「<em>造数据库</em>」的课程改革。
+</p>
+
+<h3 style="margin-top:18px">「101 计划」数据库系统课程建设 — 牵头单位</h3>
+<p>
+2022 年起，杜小勇教授牵头、卢卫教授具体运营教育部<strong>「101 计划」数据库系统课程虚拟教研室</strong>，由中国人民大学联合北京大学、清华大学等 13 所高校共建。面向本科生「造数据库」人才培养的核心诉求，我们完成了三件事：
+</p>
+<ul>
+  <li><strong>重构课程知识体系</strong>：调研国内外 124 所高校、207 门课程，提炼 5 大核心知识模块、68–77 个知识点的课程知识图谱，并为每一点撰写教案；相关成果已刊于《高等学校人工智能专业人才培养战略研究报告暨核心课程体系》。</li>
+  <li><strong>配套教材与实验平台</strong>：主编「101 计划」计算机核心教材《数据库管理系统原理与实现》（清华大学出版社，2024）；研制教学型数据库原型 <strong>RUCBase</strong>（「麻雀虽小、五脏俱全」，代码 ≈ 2 万行，开源 <a href="https://github.com/ruc-deke/rucbase-lab" target="_blank" rel="noopener">ruc-deke/rucbase-lab ↗</a>）。</li>
+  <li><strong>办大赛、办导教班</strong>：首创并承担<strong>全国大学生计算机系统能力大赛·数据库赛道</strong>（2023—2025 连办三届，累计 1000+ 支队伍、2600+ 名本科生参赛；基于 RUCBase / RMDB、以 TPC-C 为基准）；连续三年在龙岩、天津、眉山举办「101 计划」数据库系统课程<strong>导教班</strong>，助力 120+ 位教师掌握「造数据库」课程讲授方法。</li>
+</ul>
+<p class="small">
+<em>推广情况</em>：RUCBase 已在中国人民大学、哈尔滨工业大学、华中科技大学、西安电子科技大学、山西大学、温州大学、湖南大学等多所高校使用。
+</p>
+
+<h3>《数据库系统概论》 — 国家级一流本科课程</h3>
+<p>
+本课程由萨师煊先生开创、王珊先生和杜小勇教授接续发展，<strong>2020 年同时获评「国家级线上线下混合式一流本科课程」与「国家级线上一流本科课程」</strong>。
+</p>
+<ul>
+  <li><strong>MOOC</strong>：与团队一同在中国大学 MOOC 平台持续建设《数据库系统概论》基础篇、应用篇、新技术篇三门线上课程；截至当前已开设 <strong>50 期、服务学员 63 万人次</strong>；疫情期间支撑 162 所高校的混合教学。2024 年完成最新一轮更新，新增教学视频 17 个。</li>
+  <li><strong>SQL 在线实验平台</strong>（<a href="https://sql.ruc.edu.cn" target="_blank" rel="noopener">sql.ruc.edu.cn ↗</a>）：面向作业部署、学习行为数据采集与个性化教学。曾获「全国计算机类课程实验教学案例设计竞赛」一等奖。</li>
+  <li><strong>混合式教学改革</strong>（2017 起）：率先提出「授业 - 解惑 - 传道」三位一体教学体系——知识图谱驱动的结构化讲授、基于 SQL 平台数据的个性化答疑、以真实问题驱动的项目闭环（如「实验室预约系统」「学生第二课堂管理」等已上线使用）。</li>
+  <li><strong>课程思政与立德树人</strong>：入选<strong>北京市课程思政教学团队</strong>；在绪论中讲述萨师煊、王珊等我国数据库奠基人的奋斗历程，激励学生科技报国、弘扬工匠精神。</li>
+</ul>
+
+<h3>其他课程与资源</h3>
+<ul>
+  <li><strong>数据库系统实现（图灵班）</strong> — 面向本科拔尖人才，内核实现、并发控制、查询处理的实践课（配合 RUCBase / RUC Transaction Tester / MiniOB）。</li>
+  <li><strong>高级数据库系统</strong> — 面向研究生，内容涵盖查询优化、分布式事务、新型数据库架构。</li>
+  <li><strong>大模型原理与应用</strong> — 面向本科高年级与研究生，涵盖 Transformer、Scaling Law、对齐（RLHF/DPO）、Agent 等。</li>
+  <li><strong>教学型数据库 RUCBase</strong> — 配套「完形填空 → 自动测试 → 性能调优」渐进式工程训练链，持续迭代，面向国内高校开放使用。</li>
+</ul>
+
+<blockquote>
+RUCBase 贯穿了数据库底层实现中的存储、索引、查询、并发等各个方面，经过一学期的学习，不仅进一步了解了 Linux 底层的存储交互、复习了编译原理的实现细节，还掌握了 B+ 树、并发锁等数据库基础知识。 ——— 选课学生课程总结
+</blockquote>
+
+<p class="small">本栏目部分内容整理自卢卫教授《101 计划数据库系统教学改革方法研究与实践》主题报告（2025.10）及相关立德树人材料。教学资源与课件请联系任课老师获取。</p>
+</section>
+
+<section id="join" class="anchor">
+<h2>招生信息 / Join Us</h2>
+<p>课题组长期欢迎对数据库系统、智能数据管理、AI × SE、大模型与数据方向感兴趣的同学加入。</p>
+<ul>
+  <li><strong>博士生</strong>：推免 / 申请-考核；每年招收若干名，鼓励本科阶段有系统开发或论文经验。</li>
+  <li><strong>硕士生</strong>：推免优先；欢迎对数据库内核、查询优化、LLM × DB 方向有兴趣的同学。</li>
+  <li><strong>本科生科研</strong>：欢迎在读本科生申请参与科研训练计划（创新杯 / SRT）。</li>
+  <li><strong>访问学者 / 实习</strong>：欢迎业界合作与短期访问，请邮件联系对应 PI。</li>
+</ul>
+<blockquote>申请时建议附上个人简历、成绩单、感兴趣方向的简短说明（一页 PDF 为佳），发送至对应老师的工作邮箱。</blockquote>
+</section>
+
+<section id="contact" class="anchor">
+<h2>联系我们 / Contact</h2>
+<dl class="kv">
+  <dt>Email</dt><dd><a href="mailto:deke-dbiir@ruc.edu.cn">deke-dbiir@ruc.edu.cn</a>（课题组通联邮箱）</dd>
+  <dt>Address</dt><dd>北京市海淀区中关村大街 59 号<br/>中国人民大学 · 信息楼 · 信息学院 计算机系</dd>
+  <dt>Postal</dt><dd>100872</dd>
+  <dt>Affiliation</dt><dd>数据工程与知识工程教育部重点实验室（DEKE, MOE）</dd>
+</dl>
+<p class="small">媒体采访、学术合作、校友联系请通过课题组通联邮箱转达。</p>
+</section>
+
+</main>
+</div>
+
+<footer>
+  <div class="inner">
+    <div>© 1978–2026 · Database Systems Lab · DEKE Lab · Renmin University of China. All rights reserved.</div>
+    <div>
+      <a href="https://info.ruc.edu.cn/" target="_blank" rel="noopener" style="color:var(--muted);border-bottom:1px solid transparent">信息学院</a>
+      &nbsp;·&nbsp;
+      <a href="https://feishu.cn/docx/BmcJdJiAhoz63WxGAnDcich2njg" target="_blank" rel="noopener" style="color:var(--muted);border-bottom:1px solid transparent">团队发展史</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
