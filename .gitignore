@@ -2,7 +2,12 @@
 students.json
 build_faculty.py
 sync_students.py
+__pycache__/
 
 # Local image backups
 *.bak
 *.prev_bak*
+
+# Local member source materials
+/syh.jpg
+/个人官网.docx
