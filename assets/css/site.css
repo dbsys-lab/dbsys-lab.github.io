@@ -248,8 +248,7 @@ body[data-page="people"] .nav-people,
 body[data-page="news"] .nav-news,
 body[data-page="publications"] .nav-publications,
 body[data-page="teaching"] .nav-teaching,
-body[data-page="join"] .nav-join,
-body[data-page="contact"] .nav-contact {
+body[data-page="join"] .nav-join {
   color: var(--ruc);
 }
 
@@ -258,8 +257,7 @@ body[data-page="people"] .nav-people::after,
 body[data-page="news"] .nav-news::after,
 body[data-page="publications"] .nav-publications::after,
 body[data-page="teaching"] .nav-teaching::after,
-body[data-page="join"] .nav-join::after,
-body[data-page="contact"] .nav-contact::after {
+body[data-page="join"] .nav-join::after {
   background: var(--ruc);
 }
 
@@ -929,50 +927,6 @@ body[data-page="contact"] .nav-contact::after {
   margin-top: 42px;
 }
 
-.contact-layout {
-  display: grid;
-  grid-template-columns: 1fr 0.75fr;
-  gap: 80px;
-}
-
-.contact-list {
-  margin: 0;
-}
-
-.contact-list div {
-  display: grid;
-  padding: 17px 0;
-  border-bottom: 1px solid var(--line);
-  grid-template-columns: 110px 1fr;
-  gap: 18px;
-}
-
-.contact-list dt {
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.contact-list dd {
-  margin: 0;
-}
-
-.contact-note {
-  padding: 26px;
-  border-top: 4px solid var(--teal);
-  background: var(--soft);
-}
-
-.contact-note h2 {
-  margin-bottom: 12px;
-  font-size: 21px;
-}
-
-.contact-note p {
-  color: var(--ink-soft);
-  font-size: 14px;
-}
-
 .profile-shell {
   display: grid;
   padding-block: 56px 90px;
@@ -1228,8 +1182,7 @@ body[data-page="contact"] .nav-contact::after {
   .home-news,
   .split-feature,
   .page-head .container,
-  .publication-intro,
-  .contact-layout {
+  .publication-intro {
     grid-template-columns: 1fr;
   }
 
@@ -1368,11 +1321,6 @@ body[data-page="contact"] .nav-contact::after {
 
   .news-entry > div:last-child {
     grid-column: 1 / -1;
-  }
-
-  .contact-list div {
-    grid-template-columns: 1fr;
-    gap: 3px;
   }
 
   .profile-shell {
