@@ -639,6 +639,16 @@ body[data-page="join"] .nav-join::after {
   object-position: 59% center;
 }
 
+.faculty-fallback {
+  display: grid;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-family: "Noto Serif SC", serif;
+  font-size: 46px;
+  place-items: center;
+  text-decoration: none;
+}
+
 .faculty-name {
   font-size: 21px;
 }
