@@ -321,6 +321,10 @@ body[data-page="join"] .nav-join::after {
   line-height: 1.85;
 }
 
+.hero-lead + .hero-lead {
+  margin-top: 16px;
+}
+
 .hero-summary {
   padding: 12px 0 12px 48px;
   border-left: 1px solid #c9c5be;
